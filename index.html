@@ -11,19 +11,23 @@
 <div id="todo">
     <p>Add a TODO <input type="text"  v-model=" todoTask"  placeholder="E.g. Feed the cat"></p>
     <button @click ="addNewTodo">addNewTODO</button>
-    <button @click ="removeTodo">removeTODO</button>
+    
     
 
-    <ul> 
+    <ol> 
         <li v-for = "todo in todoList">
-            <input type ="checkbox"/>
-           {{todo}}
+           <p>{{todo}}</p>
+           <button @click ="removeTodo">X</button> | 
+           <button @click="removeTodo">Mark Complete</button>
         </li>
-    </ul>
+    </ol>
   
 </div>
+
 </body>
+
 <script>
+    
 const app = new Vue({
     el : "#todo",
     data:{

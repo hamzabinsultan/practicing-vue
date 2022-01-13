@@ -57,11 +57,13 @@ const app = new Vue({
             id : this.todoId++,
             title:this.todoTask
         })
+        this.todoTask = "hamza ali";
       
     },
     removeTodo : function(index){
-      //  const index = this.todoList.indexOf(index)
+       // const idx = this.todoList.indexOf(index)
       this.todoList.splice(index,1)
+      console.log(index)
     },
    
     taskToggle: function(){
@@ -69,6 +71,7 @@ const app = new Vue({
     }
    }
 })
+
 </script>
 </html>
 

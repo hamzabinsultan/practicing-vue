@@ -15,11 +15,11 @@
     
 
     <ol> 
-        <li v-for = "(todo, index) in todoList" >
+        <li v-for = "(todo, index,) in todoList" >
           <p>{{todo.title}}</p>
-           <button @click ="removeTodo(index)">X</button> | 
-           <button v-if="completed" @click ="taskToggle" >completed</button>
-           <button v-else="completed" @click ="taskToggle" >inompleted </button>
+           <button @click ="removeTodo(index)">Delete</button> | 
+           <button v-if="todo.completed" @click ="taskToggle" >completed</button>
+           <button v-else="todo.completed" @click ="taskToggle" >inompleted </button>
         </li>
     </ol>
   
@@ -34,40 +34,44 @@ const app = new Vue({
     data:{
         todoId : 0,
         todoTask : "",
+        completed : true,
         todoList :[ 
         {
         id: "demoId",
         title: 'Do the dishes',
+        completed : false,
       },
       {
         id: 2,
         title: 'Take out the trash',
+        completed : false,
       },
       {
         id: 3,
-        title: 'Mow the lawn'
+        title: 'Mow the lawn',
+        completed : false,
       }
         ],
-        completed : true,
+       
         
     },
    methods: {  
     addNewTodo : function(){
         this.todoList.push({
             id : this.todoId++,
-            title:this.todoTask
+            title:this.todoTask,
+            completed : this.completed
         })
-        this.todoTask = "hamza ali";
+        this.todoTask = "";
       
     },
     removeTodo : function(index){
-       // const idx = this.todoList.indexOf(index)
       this.todoList.splice(index,1)
       console.log(index)
     },
    
     taskToggle: function(){
-         this.completed = !this.completed
+         todo.completed = !todo.completed
     }
    }
 })

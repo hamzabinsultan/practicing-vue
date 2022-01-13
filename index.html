@@ -15,9 +15,9 @@
     
 
     <ol> 
-        <li v-for = "todo in todoList" >
+        <li v-for = "(todo, index) in todoList" >
           <p>{{todo.title}}</p>
-           <button @click ="removeTodo(todo)">X</button> | 
+           <button @click ="removeTodo(index)">X</button> | 
            <button v-if="completed" @click ="taskToggle" >completed</button>
            <button v-else="completed" @click ="taskToggle" >inompleted </button>
         </li>
@@ -59,8 +59,8 @@ const app = new Vue({
         })
       
     },
-    removeTodo : function(todo){
-        const index = this.todoList.indexOf(todo)
+    removeTodo : function(index){
+      //  const index = this.todoList.indexOf(index)
       this.todoList.splice(index,1)
     },
    

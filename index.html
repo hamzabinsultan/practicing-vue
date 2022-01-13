@@ -19,7 +19,7 @@
           <p>{{todo.title}}</p>
            <button @click ="removeTodo(index)">Delete</button> | 
            <button v-if="todo.completed" @click ="taskToggle" >completed</button>
-           <button v-else="todo.completed" @click ="taskToggle" >inompleted </button>
+           <button v-else  @click ="taskToggle" >inompleted </button>
         </li>
     </ol>
   
@@ -70,7 +70,8 @@ const app = new Vue({
       console.log(index)
     },
    
-    taskToggle: function(){
+    taskToggle: function(todo){
+        console.log(todo.completed)
          todo.completed = !todo.completed
     }
    }

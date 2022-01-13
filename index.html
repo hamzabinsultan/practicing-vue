@@ -9,13 +9,14 @@
 </head>
 <body>
 <div id="todo">
-    <p>Add a TODO <input type="text"  v-model=" todoTask"></p>
+    <p>Add a TODO <input type="text"  v-model=" todoTask"  placeholder="E.g. Feed the cat"></p>
     <button @click ="addNewTodo">addNewTODO</button>
     <button @click ="removeTodo">removeTODO</button>
     
 
     <ul> 
         <li v-for = "todo in todoList">
+            <input type ="checkbox"/>
            {{todo}}
         </li>
     </ul>

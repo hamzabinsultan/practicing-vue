@@ -11,9 +11,14 @@ todo.completed===true?todoTaskCompleted:todoTaskIncompleted
 
 
 
-
-
-
+ mounted() {
+      const getStorage = localStorage.getItem("key");
+      if(Array.isArray(getStorage)&& !getStorage.length){
+        console.log("array is  empty")
+      }else{
+        console.log("array is empty")
+      }
+      console.log(Array.isArray(getStorage))
 
 
 
@@ -28,8 +33,8 @@ todo.completed===true?todoTaskCompleted:todoTaskIncompleted
 
 JSON.stringify
 JSON.parse // it converts a string into an object
-localStorage.set()
-localStorage.get()
+localStorage.setItem()
+localStorage.getItem()
 
 localStorage.clear()
 

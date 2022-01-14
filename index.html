@@ -10,9 +10,13 @@
 <style>
   .todoTaskCompleted {
     text-decoration-line: line-through;
+
   }
-  .todoTaskIncompleted {
-    text-decoration-line: none;
+  .markCompleted{
+    background-color : green;
+  }
+  .deleteButton{
+    background-color: red;
   }
 </style>
 <body>
@@ -23,7 +27,7 @@
       <li v-for="(todo, index,) in todoList">
         <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
         <button @click="removeTodo(index)">Delete</button> |
-        <button @click="taskToggle(todo)">Mark {{todo.completed===true?'Completed':'Incomplete'}} </button>
+        <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark {{todo.completed===true?'Completed':'Incomplete'}} </button>
       </li>
     </ol>
   </div>
@@ -33,39 +37,34 @@
     el: "#todo",
     data: {
       todoTask: "",
-      todoList: [
-        {
-          title: 'Do the dishes',
-          completed: false,
-        },
-        {
-          title: 'Take out the trash',
-          completed: false,
-        },
-        {
-          title: 'Mow the lawn',
-          completed: false,
-        }
-      ],
+      todoList: [],
     },
     methods: {
       addNewTodo: function () {
         this.todoList.push({
           title: this.todoTask,
           completed: false,
-        })
+      })
         this.todoTask = "";
-
+        localStorage.setItem("key" ,JSON.stringify(this.todoList)) ;
       },
       removeTodo: function (index) {
         this.todoList.splice(index, 1)
+        localStorage.setItem("key" ,JSON.stringify(this.todoList)) ;
       },
 
       taskToggle: function (todo) {
         todo.completed = !todo.completed;
       }
-    }
-  })
+    },
+    mounted(){
+       const getStorage = localStorage.getItem("key",this.todoList);
+       this.todoList = JSON.parse(getStorage);
+      //this.todoList =  localStorage.getItem("key" ,JSON.parse(this.todoList))
+      console.log(this.todoList) ;
+    
+      }
+   })
 
 </script>
 

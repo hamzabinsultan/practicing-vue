@@ -7,6 +7,12 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <title>Document</title>
 </head>
+<style>
+.todoTask{
+    text-decoration-line: line-through;
+}
+
+</style>
 <body>
 <div id="todo">
     <p>Add a TODO <input type="text"  v-model=" todoTask"  placeholder="E.g. Feed the cat"></p>
@@ -16,10 +22,14 @@
 
     <ol> 
         <li v-for = "(todo, index,) in todoList" >
-          <p>{{todo.title}}</p>
+            <p :class="{todoTask : active}">{{todo.title}}</p>
+         
            <button @click ="removeTodo(index)">Delete</button> | 
-           <button v-if="todo.completed" @click ="taskToggle" >completed</button>
-           <button v-else  @click ="taskToggle" >inompleted </button>
+       
+            <button v-if="todo.completed " @click ="  taskToggle(todo)" >completed</button>
+            <button v-else  @click ="  taskToggle(todo)">inompleted </button>
+            
+       
         </li>
     </ol>
   
@@ -32,24 +42,29 @@
 const app = new Vue({
     el : "#todo",
     data:{
+      
         todoId : 0,
         todoTask : "",
         completed : true,
+        active :true,
         todoList :[ 
         {
         id: "demoId",
         title: 'Do the dishes',
         completed : false,
+        active :false,
       },
       {
         id: 2,
         title: 'Take out the trash',
         completed : false,
+        active :false,
       },
       {
         id: 3,
         title: 'Mow the lawn',
         completed : false,
+        active :false,
       }
         ],
        
@@ -60,7 +75,8 @@ const app = new Vue({
         this.todoList.push({
             id : this.todoId++,
             title:this.todoTask,
-            completed : this.completed
+            completed : this.completed,
+            active : this.active
         })
         this.todoTask = "";
       
@@ -71,8 +87,9 @@ const app = new Vue({
     },
    
     taskToggle: function(todo){
-        console.log(todo.completed)
-         todo.completed = !todo.completed
+        todo.active = !todo.active;
+        console.log(todo.active)
+         todo.completed = !todo.completed;
     }
    }
 })

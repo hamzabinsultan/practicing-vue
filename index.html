@@ -1,116 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <title>Document</title>
 </head>
 <style>
-.todoTask{
+  .todoTaskCompleted {
     text-decoration-line: line-through;
-}
-
+  }
+  .todoTaskIncompleted {
+    text-decoration-line: none;
+  }
 </style>
 <body>
-<div id="todo">
-    <p>Add a TODO <input type="text"  v-model=" todoTask"  placeholder="E.g. Feed the cat"></p>
-    <button @click ="addNewTodo">addNewTODO</button>
-    
-    
-
-    <ol> 
-        <li v-for = "(todo, index,) in todoList" >
-            <p :class="{todoTask : active}">{{todo.title}}</p>
-         
-           <button @click ="removeTodo(index)">Delete</button> | 
-       
-            <button v-if="todo.completed " @click ="  taskToggle(todo)" >completed</button>
-            <button v-else  @click ="  taskToggle(todo)">inompleted </button>
-            
-       
-        </li>
+  <div id="todo">
+    <p>Add a TODO <input type="text" v-model="todoTask" placeholder="E.g. Feed the cat"></p>
+    <button @click="addNewTodo">addNewTODO</button>
+    <ol>
+      <li v-for="(todo, index,) in todoList">
+        <p :class="todo.completed===true?todoTaskCompleted:todoTaskIncompleted">{{todo.title}}</p>
+        <button @click="removeTodo(index)">Delete</button> |
+        <button @click="taskToggle(todo)">Mark {{todo.completed===true?'Incomplete':'Completed'}} </button>
+      </li>
     </ol>
-  
-</div>
-
+  </div>
 </body>
-
 <script>
-    
-const app = new Vue({
-    el : "#todo",
-    data:{
-      
-        todoId : 0,
-        todoTask : "",
-        completed : true,
-        active :true,
-        todoList :[ 
+  const app = new Vue({
+    el: "#todo",
+    data: {
+      todoTask: "",
+      todoList: [
         {
-        id: "demoId",
-        title: 'Do the dishes',
-        completed : false,
-        active :false,
-      },
-      {
-        id: 2,
-        title: 'Take out the trash',
-        completed : false,
-        active :false,
-      },
-      {
-        id: 3,
-        title: 'Mow the lawn',
-        completed : false,
-        active :false,
-      }
-        ],
-       
-        
+          title: 'Do the dishes',
+          completed: false,
+        },
+        {
+          title: 'Take out the trash',
+          completed: false,
+        },
+        {
+          title: 'Mow the lawn',
+          completed: false,
+        }
+      ],
     },
-   methods: {  
-    addNewTodo : function(){
+    methods: {
+      addNewTodo: function () {
         this.todoList.push({
-            id : this.todoId++,
-            title:this.todoTask,
-            completed : this.completed,
-            active : this.active
+          title: this.todoTask,
+          completed: false,
         })
         this.todoTask = "";
-      
-    },
-    removeTodo : function(index){
-      this.todoList.splice(index,1)
-      console.log(index)
-    },
-   
-    taskToggle: function(todo){
-        todo.active = !todo.active;
-        console.log(todo.active)
-         todo.completed = !todo.completed;
+
+      },
+      removeTodo: function (index) {
+        this.todoList.splice(index, 1)
+      },
+
+      taskToggle: function (todo) {
+        todo.completed = !todo.completed;
+      }
     }
-   }
-})
+  })
 
 </script>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

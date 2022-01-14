@@ -21,9 +21,9 @@
     <button @click="addNewTodo">addNewTODO</button>
     <ol>
       <li v-for="(todo, index,) in todoList">
-        <p :class="todo.completed===true?todoTaskCompleted:todoTaskIncompleted">{{todo.title}}</p>
+        <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
         <button @click="removeTodo(index)">Delete</button> |
-        <button @click="taskToggle(todo)">Mark {{todo.completed===true?'Incomplete':'Completed'}} </button>
+        <button @click="taskToggle(todo)">Mark {{todo.completed===true?'Completed':'Incomplete'}} </button>
       </li>
     </ol>
   </div>

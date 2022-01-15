@@ -26,7 +26,7 @@
 <body>
   <div id="todo">
     <p>Add a TODO <input type="text" v-model="todoTask" placeholder="E.g. Feed the cat"></p>
-    <button v-show ="inputDone" v-if="todoTask" @click="addNewTodo">addNewTodo</button>
+    <button v-show ="todoTask" @click="addNewTodo">addNewTodo</button>
     <ol>
       <li v-for="(todo, index,) in todoList">
         <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
@@ -43,7 +43,7 @@
     data: {
       todoTask: "",
       todoList: [],
-      inputDone: true
+    
     },
     methods: {
       addNewTodo: function () {

@@ -26,7 +26,7 @@
 <body>
   <div id="todo">
     <p>Add a TODO <input type="text" v-model="todoTask" placeholder="E.g. Feed the cat"></p>
-    <button @click="addNewTodo">addNewTODO</button>
+    <button v-show ="inputDone" v-if="todoTask" @click="addNewTodo">addNewTodo</button>
     <ol>
       <li v-for="(todo, index,) in todoList">
         <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
@@ -43,6 +43,7 @@
     data: {
       todoTask: "",
       todoList: [],
+      inputDone: true
     },
     methods: {
       addNewTodo: function () {
@@ -60,34 +61,19 @@
 
       taskToggle: function (todo) {
         todo.completed = !todo.completed;
-      }
+      },
+      
     },
     mounted() {
       const getStorage = localStorage.getItem("key");
-      if( !getStorage.length){//this condition returns true if Array is empty and alse if not 
-        console.log("array is empty")
-        this.todoList.push({
-          title: this.todoTask,
-          completed: false,
-        })
-      }else{
-        console.log("array is not empty")
+      console.log(getStorage)// if there is no todo in localStorage , getStorage will return undefined having falsy value and the opposite of this scenario is presence of todos in getStorage so the 2nd condition is truthy value 
+      if(getStorage){
         this.todoList = JSON.parse(getStorage)
       }
-      console.log(Array.isArray(getStorage))
     }
-    
-    //const storageEmpty = getStorage
-      //console.log(getStorage)
-      //console.log(storageEmpty)
-      //getStorage === storageEmpty?    :   this.todoList = JSON.parse(getStorage);
-
-    
-
-    
-  
   })
-
+  const todoTask=  "";
+  console.log(todoTask)
 </script>
 
 </html>

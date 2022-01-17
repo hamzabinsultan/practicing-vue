@@ -60,8 +60,7 @@
      let lastIndex = this.todoList[index-1];
      this.todoList[index] = lastIndex;
      this.todoList[index-1] = currentIndex;
-     console.log(this.todoList[index] );
-     console.log(this.todoList[index-1]);
+     this.$forceUpdate()
      console.log(this.todoList)
       },
       goingDown: function(index){ 
@@ -69,10 +68,8 @@
      let nextIndex = this.todoList[index+1];
      this.todoList[index] = nextIndex;
      this.todoList[index+1]= currentIndex;
-     console.log(this.todoList[index]);
-     console.log(this.todoList[index-1]);
-
-       console.log(this.todoList)
+     this.$forceUpdate()
+    console.log(this.todoList)
       },
       taskToggle: function (todo) {
         todo.completed = !todo.completed;

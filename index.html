@@ -29,7 +29,7 @@
         <button @click="removeTodo(index)">Delete</button> |
         <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark
           {{todo.completed===true?'Completed':'Incomplete'}} </button>
-          <button @click="goingUp(index)">Up</button><button   @click="goingDown(index)">Down</button>
+          <button v-show="todoList[index-1]" @click="goingUp(index)">Up</button><button v-show="todoList[index+1]"   @click="goingDown(index)">Down</button>
       </li>
     </ol>
   </div>
@@ -56,13 +56,22 @@
         localStorage.setItem("key", JSON.stringify(this.todoList));
       },
       goingUp: function(index){
-       console.log(index-1,index)
-       [this.todoList[index], this.todoList[index-1]] = [this.todoList[index-1], this.todoList[index]];
-       console.log(this.todoList)
+      let currentIndex = this.todoList[index];
+     let lastIndex = this.todoList[index-1];
+     this.todoList[index] = lastIndex;
+     this.todoList[index-1] = currentIndex;
+     console.log(this.todoList[index] );
+     console.log(this.todoList[index-1]);
+     console.log(this.todoList)
       },
-      goingDown: function(index){
-        console.log(index+1,index)
-        [this.todoList[index], this.todoList[index+1]] = [this.todoList[index+1], this.todoList[index]];
+      goingDown: function(index){ 
+     let currentIndex = this.todoList[index];
+     let nextIndex = this.todoList[index+1];
+     this.todoList[index] = nextIndex;
+     this.todoList[index+1]= currentIndex;
+     console.log(this.todoList[index]);
+     console.log(this.todoList[index-1]);
+
        console.log(this.todoList)
       },
       taskToggle: function (todo) {

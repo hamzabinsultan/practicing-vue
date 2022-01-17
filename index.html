@@ -29,7 +29,7 @@
         <button @click="removeTodo(index)">Delete</button> |
         <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark
           {{todo.completed===true?'Completed':'Incomplete'}} </button>
-          <button @click="goingUp(index)">Up</button><button>Down</button>
+          <button @click="goingUp(index)">Up</button><button   @click="goingDown(index)">Down</button>
       </li>
     </ol>
   </div>
@@ -56,12 +56,15 @@
         localStorage.setItem("key", JSON.stringify(this.todoList));
       },
       goingUp: function(index){
-       index--
-       console.log(index)
+       console.log(index-1,index)
+       [this.todoList[index], this.todoList[index-1]] = [this.todoList[index-1], this.todoList[index]];
+       console.log(this.todoList)
       },
-      goingDown: function(){
-
-},
+      goingDown: function(index){
+        console.log(index+1,index)
+        [this.todoList[index], this.todoList[index+1]] = [this.todoList[index+1], this.todoList[index]];
+       console.log(this.todoList)
+      },
       taskToggle: function (todo) {
         todo.completed = !todo.completed;
       },

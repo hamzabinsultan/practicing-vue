@@ -10,7 +10,7 @@
 </head>
 <body>
     <div id="app" >
-     <span v-for="data in info">{{info}}</span>  
+     <span v-for="data in info" :key="data.price">{{data.price}}</span>  
     </div>
 </body>
 <script>
@@ -18,13 +18,14 @@
   el: '#app',
   data () {
     return {
-      info:null
+      info:[]
      }
   },
  mounted () {
     axios.get("https://api.officeworks.ph/wp-json/wc/v3/products" ,{ params: { consumer_key:"ck_db9dcbdc500e6ca14a2d8e954b0b78aa922e2f33" ,consumer_secret:"cs_ee59f70a4178daffc626d3f92909233a1d015d30" } })
       .then(response => {
         this.info = response;
+        console.log(response.data)
       })
       .catch(error => {
         console.log(error)

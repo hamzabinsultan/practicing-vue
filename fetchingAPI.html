@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <title>Document</title>
 </head>
 <style>
@@ -14,30 +16,50 @@
        text-align: center;
        padding-top: 15px;
        margin:50px
-        
+ }
+    .image{
+      width:250px;
+      height:250px;
     }
-
+ #app{
+   display: flex;
+   text-align: center;
+   padding-top: 15px;
+   margin:50px
+ }
+ .desc{
+  overflow-wrap: break-word;
+ }
 </style>
 <body>
-    <div id="app" >
-     <ol>
-     <li class="product" v-for="(data,index) in products">{{data.name}}
-         <p>price : {{data.price}}</p>
-      <!-- <p>PRODUCT IMAGE : {{data.images}}</p> -->  
-     </li>  
-    </ol>
-    </div>
+ <div  id="app" class="container mt-3 row" >
+      <div v-for="(data,index) in products" class=" product col-sm-3"> 
+         <h2>product Image</h2>
+        <img class="image" :src="data.images[0].src">
+        <div class="desc" style="width:300px">
+            <div >
+                <h4 class="desc card-title">{{data.name}}</h4>
+                <p class="card-text">Some example text some example text. John Doe is an architect and engineer</p>
+            </div>
+        </div>
+       </div>
+  </div>
+  <button @click="previousPage">previous page</button>
+  <button>next page</button>
 </body>
 <script>
     const app = new Vue({
   el: '#app',
-  data () {
-    return {
-      products:[]
-     }
-  },
+  data:{
+    products:[],
+      pages : 4,
+ },
  mounted () {
-    axios.get("https://api.officeworks.ph/wp-json/wc/v3/products" ,{ params: { consumer_key:"ck_db9dcbdc500e6ca14a2d8e954b0b78aa922e2f33" ,consumer_secret:"cs_ee59f70a4178daffc626d3f92909233a1d015d30" } })
+  this.fetchAPI;
+},
+computed: {
+ fetchAPI : function(){
+    axios.get("https://api.officeworks.ph/wp-json/wc/v3/products" ,{ params: { consumer_key:"ck_db9dcbdc500e6ca14a2d8e954b0b78aa922e2f33" ,consumer_secret:"cs_ee59f70a4178daffc626d3f92909233a1d015d30",page:this.pages } })
       .then(response => {
         this.products = response.data;
         console.log(response.data)
@@ -46,6 +68,15 @@
       .catch(error => {
         console.log(error)
     })
+  },
+  previousPage: function(){
+if(this.pages>0) this.pages--
+  },
+  nextPage: function(){
+  
+    this.pages++
+    console.log(this.pages)
+  }
 }
 })
 </script>

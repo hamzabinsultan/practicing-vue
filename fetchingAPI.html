@@ -47,7 +47,7 @@
              <option value="50">50</option>
             <option value="100">100</option>
           </select>
-          <span>
+          <!-- <span>
             <label for="pages">Sort products by :</label>
             <select name="pages" id="pages" v-model="sortby">
                <option value="price">price</option>
@@ -55,12 +55,13 @@
                <option value="id">id</option>
              
             </select>
-          </span>
+          </span> -->
           <span>
             <label for="pages">high to low & low to high :</label>
-            <select name="pages" id="pages" v-model="sortByPrice">
+            <select name="pages" id="pages" v-model="sortBy">
                <option value="asc">low to high</option>
                <option value="desc">high to low</option>
+               <option value="desc">newest product</option>
             </select>
           </span>
    <div class="container mt-3 row">
@@ -91,8 +92,8 @@
       pages: 1,
       totalPages:null,
       perPage :10,
-      sortby : "date",
-      sortByPrice : "asc"
+     // sortby : "date",
+      sortBy : "desc"
    
   
 },
@@ -107,15 +108,15 @@
        this.fetchAPI();
        
     },
-    sortby(value){
-      console.log(value)
-      this.sortby =  value;
-       this.fetchAPI();
+    // sortby(value){
+    //   console.log(value)
+    //   this.sortby =  value;
+    //    this.fetchAPI();
        
-    },
-    sortByPrice(value){
+    // },
+    sortBy(value){
       console.log(value)
-      this.sortByPrice =  value;
+      this.sort =  value;
        this.fetchAPI();
        
     }
@@ -144,8 +145,8 @@
               page: this.pages,
               //orderby: "price",
               per_page : this.perPage,
-              order : this.sortByPrice,
-              orderby : this.sortby
+              order : this.sortBy,
+            //  orderby : this.sortby
 
             }
           })

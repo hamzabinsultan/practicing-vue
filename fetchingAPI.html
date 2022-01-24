@@ -56,14 +56,23 @@
              
             </select>
           </span>
+          <span>
+            <label for="pages">high to low & low to high :</label>
+            <select name="pages" id="pages" v-model="sortByPrice">
+               <option value="asc">low to high</option>
+               <option value="desc">high to low</option>
+            </select>
+          </span>
    <div class="container mt-3 row">
         <div v-for="(data,index) in products"class="desc card-body product  col- 12 col-sm-12 col-md-6 col-lg-3 overflow-auto ">
            <h2>product Image</h2>
-           <img class="image" :src="data.images[0].src" alt="no image of product">
+           <img class="image" :src="data.images[0].src " alt="no image of product">
           <div class="desc " style="width:300px">
             <div>
                <h4 class="desc card-title">{{data.name}}</h4>
                <p class="card-text">${{data.price}}</p>
+               <p class="card-text">{{data.date_created}}</p>
+               <p class="card-text">{{data.id}}</p>
             </div>
           </div>
         </div>
@@ -81,7 +90,10 @@
       products: [],
       pages: 1,
       totalPages:null,
-      perPage :10
+      perPage :10,
+      sortby : "date",
+      sortByPrice : "asc"
+   
   
 },
     mounted() {
@@ -91,8 +103,19 @@
     },
     watch:{
      perPage(value){
-      console.log(value)
       this.perPage =  value;
+       this.fetchAPI();
+       
+    },
+    sortby(value){
+      console.log(value)
+      this.sortby =  value;
+       this.fetchAPI();
+       
+    },
+    sortByPrice(value){
+      console.log(value)
+      this.sortByPrice =  value;
        this.fetchAPI();
        
     }
@@ -121,7 +144,8 @@
               page: this.pages,
               //orderby: "price",
               per_page : this.perPage,
-              order : "asc",
+              order : this.sortByPrice,
+              orderby : this.sortby
 
             }
           })

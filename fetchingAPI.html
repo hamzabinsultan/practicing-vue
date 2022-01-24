@@ -23,19 +23,15 @@
     width: 250px;
     height: 250px;
   }
-
-  #app {
-    display: flex;
-    text-align: center;
-    padding-top: 15px;
-    margin: 50px;
-    margin-left:250px;
-  }
   .dropdown{
     display: flex;
     justify-content: center;
   }
-
+  .row{
+    display: flex;
+    text-align: center;
+    margin-left: 250px;
+  }
   .desc {
     overflow-wrap: break-word;
   }
@@ -43,8 +39,7 @@
 
 <body>
   <div  id="app" >
-        <form action="/action_page.php">
-          <label for="pages">Select products per page:</label>
+       <label for="pages">Select products per page:</label>
           <select name="pages" id="pages" v-model="perPage">
              <option value="10">10</option>
              <option value="12">12</option>
@@ -52,8 +47,16 @@
              <option value="50">50</option>
             <option value="100">100</option>
           </select>
-        </form>
-    <div class="container mt-3 row">
+          <span>
+            <label for="pages">Sort products by :</label>
+            <select name="pages" id="pages" v-model="sortby">
+               <option value="price">price</option>
+               <option value="date">date</option>
+               <option value="id">id</option>
+             
+            </select>
+          </span>
+   <div class="container mt-3 row">
         <div v-for="(data,index) in products"class="desc card-body product  col- 12 col-sm-12 col-md-6 col-lg-3 overflow-auto ">
            <h2>product Image</h2>
            <img class="image" :src="data.images[0].src" alt="no image of product">
@@ -117,7 +120,8 @@
               consumer_secret: "cs_ee59f70a4178daffc626d3f92909233a1d015d30",
               page: this.pages,
               //orderby: "price",
-              per_page : this.perPage
+              per_page : this.perPage,
+              order : "asc",
 
             }
           })

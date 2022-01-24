@@ -92,16 +92,16 @@
       pages: 1,
       totalPages:null,
       perPage :10,
-     // sortby : "date",
+      orderBy : "date",
       sortBy : "desc"
    
   
 },
     mounted() {
       this.fetchAPI();
-      // console.log(this.pages)
-   
-    },
+      console.log(this.orderby);
+      console.log(this.sortby)
+},
     watch:{
      perPage(value){
       this.perPage =  value;
@@ -115,9 +115,22 @@
        
     // },
     sortBy(value){
-      console.log(value)
-      this.sort =  value;
+      // console.log(value)
+      // this.sort =  value;
+      //  this.fetchAPI();
+      if(value === "desc"){
+       this.sortBy === value;
        this.fetchAPI();
+       console.log(value)
+      }else if(value === "asc"){
+     this.sortBy === value;
+     this.fetchAPI();
+     console.log(value)
+    }else if (value === "date"){
+       this.orderBy === value;
+       this.fetchAPI();
+       console.log(value)
+      }
        
     }
     },
@@ -146,14 +159,14 @@
               //orderby: "price",
               per_page : this.perPage,
               order : this.sortBy,
-            //  orderby : this.sortby
-
-            }
+             orderby : this.orderBy,
+           },
           })
           .then(response => {
             this.products = response.data;
             this.totalPages = response.headers["x-wp-totalpages"];
             console.log(response)
+            console.log(this.orderBy)
            // console.log(response.data)
            // console.log(response.headers["x-wp-totalpages"])
            // console.log(this.totalPages["x-wp-totalpages"])

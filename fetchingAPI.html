@@ -58,7 +58,7 @@
           </span> -->
           <span>
             <label for="pages">high to low & low to high :</label>
-            <select name="pages" id="pages" v-model="sortBy">
+            <select name="pages" id="pages" v-model="sort">
                <option value="asc">low to high</option>
                <option value="desc">high to low</option>
                <option value="date">newest product</option>
@@ -92,8 +92,8 @@
       pages: 1,
       totalPages:null,
       perPage :10,
-      orderBy : "date",
-      sortBy : "desc"
+      sort : "desc",
+      sortbydate : " ",
    
   
 },
@@ -114,20 +114,20 @@
     //    this.fetchAPI();
        
     // },
-    sortBy(value){
+    sort(value){
       // console.log(value)
       // this.sort =  value;
       //  this.fetchAPI();
       if(value === "desc"){
-       this.sortBy === value;
+       this.sort === value;
        this.fetchAPI();
        console.log(value)
       }else if(value === "asc"){
-     this.sortBy === value;
+     this.sort === value;
      this.fetchAPI();
      console.log(value)
     }else if (value === "date"){
-       this.orderBy === value;
+       this.sortbydate === value;
        this.fetchAPI();
        console.log(value)
       }
@@ -158,8 +158,8 @@
               page: this.pages,
               //orderby: "price",
               per_page : this.perPage,
-              order : this.sortBy,
-             orderby : this.orderBy,
+              order : this.sort,
+             orderby : this.sortbydate,
            },
           })
           .then(response => {

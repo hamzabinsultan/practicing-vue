@@ -56,14 +56,22 @@
              
             </select>
           </span> -->
-          <span>
+          <!-- <span>
             <label for="pages">high to low & low to high :</label>
-            <select name="pages" id="pages" v-model:sort="sort">
-               <option value="asc">low to high</option>
-               <option value="desc">high to low</option>
-               <option value="date">newest product</option>
+            <select name="pages" id="pages" v-model="sort">
+               <option value="low to high" >low to high</option>
+               <option value="high to low">high to low</option>
+               <option value="newest product">newest product</option>
             </select>
-          </span>
+          </span> -->
+      <span>
+            <label for="sort">high to low & low to high:</label>
+        <select id="sort"  v-model="sort">
+           <option value="low to high">low to high</option>
+           <option value="high to low">high to low</option>
+           <option value="newest product">newest product</option>
+        </select>
+    </span>
    <div class="container mt-3 row">
         <div v-for="(data,index) in products"class="desc card-body product  col- 12 col-sm-12 col-md-6 col-lg-3 overflow-auto ">
            <h2>product Image</h2>
@@ -94,7 +102,7 @@
       totalPages:null,
       perPage :10,
       sort : "desc",
-      sortBy : "date",
+      sortBy : "id",
       // sort : {
       //   desc : "",
       //   asc : "",
@@ -118,16 +126,20 @@
     // },
   sort(value){
        console.log(value)
+       console.log(this.sort)
       // this.sort =  value;
-      //  this.fetchAPI();
-      if(value === "desc"){
-       this.sort = "desc";
-       console.log(value)
-      }else if(value === "asc"){
-     this.sort = "asc";
+      // this.fetchAPI();
+      if(value === "low to high"){
+       this.sort = "asc";
+       this.sortBy = "price"
+    console.log(value)
+      }else if(value === "high to low"){
+     this.sort = "desc";
+     this.sortBy = "price"
      console.log(value)
     }
-    else if (value === "date"){
+    else if (value === "newest product"){
+      this.sort = "desc";
        this.sortBy = "date";
        console.log(value)
       }
@@ -166,6 +178,7 @@
             this.products = response.data;
             this.totalPages = response.headers["x-wp-totalpages"];
             console.log(response)
+            console.log(response.data.id)
          
      })
           .catch(error => {

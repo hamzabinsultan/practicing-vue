@@ -47,7 +47,7 @@
              <option value="50">50</option>
             <option value="100">100</option>
           </select>
-          <span>
+          <!-- <span>
             <label for="pages">Sort products by :</label>
             <select name="pages" id="pages" v-model="sortBy">
                <option value="price">price</option>
@@ -55,7 +55,7 @@
                <option value="id">id</option>
              
             </select>
-          </span>
+          </span> -->
           <span>
             <label for="pages">high to low & low to high :</label>
             <select name="pages" id="pages" v-model:sort="sort">
@@ -111,13 +111,13 @@
        this.fetchAPI();
        
     },
-    sortBy(value){
-      console.log(value)
-      this.sortBy =  value;
-       this.fetchAPI();
-    },
+    // sortBy(value){
+    //   console.log(value)
+    //   this.sortBy =  value;
+    //    this.fetchAPI();
+    // },
   sort(value){
-      // console.log(value)
+       console.log(value)
       // this.sort =  value;
       //  this.fetchAPI();
       if(value === "desc"){
@@ -127,10 +127,10 @@
      this.sort = "asc";
      console.log(value)
     }
-    // else if (value === "date"){
-    //    this.sortBy = "date";
-    //    console.log(value)
-    //   }
+    else if (value === "date"){
+       this.sortBy = "date";
+       console.log(value)
+      }
       this.fetchAPI();
    }
     },
@@ -166,7 +166,7 @@
             this.products = response.data;
             this.totalPages = response.headers["x-wp-totalpages"];
             console.log(response)
-            console.log(this.orderBy)
+         
      })
           .catch(error => {
             console.log(error)

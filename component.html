@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div id="component" >
+   <button-counter></button-counter>
+   <button-counter></button-counter>
+   <button-counter></button-counter>
+
+   <button-counter>button</button-counter>
+   <button-counter></button-counter>
+    </div>
+    <div id="app">
+        <alert-success heading="this is headline this is how props are passed">my name is hamza ali</alert-success>
+    </div>
+</body>
+<script>
+Vue.component("button-counter",{
+     data(){
+        return {    
+             count : 0,
+      }
+},
+template:`<button v-on:click="count++"> <slot></slot> you have clicked me{{count}} times</button>`
+}) 
+
+new Vue({ 
+    el: '#component',
+  
+     })
+     Vue.component('alert-success',{
+            template: `<div>
+                        {{heading}} <slot></slot>
+                        </div>`,
+            props :["heading"]
+        });
+ let app = new Vue({
+            el: '#app',
+        });
+</script>
+</html>

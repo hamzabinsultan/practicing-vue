@@ -67,7 +67,7 @@
       <span>
             <label for="sort">high to low & low to high:</label>
         <select id="sort"  v-model="sort">
-           <option value="low to high">low to high</option>
+           <option value="low to high" selected>low to high</option>
            <option value="high to low">high to low</option>
            <option value="newest product">newest product</option>
         </select>
@@ -85,20 +85,34 @@
             </div>
           </div>
         </div>
-    <button v-show="this.pages"  @click="previousPage()">previous page</button>
-    <button v-show=" this.totalPages > this.pages " @click="nextPage()">next page</button>
-    
     </div>
+   <pagination></pagination>
+
+  
 </div>
 
 </body>
 <script>
+  Vue.component("pagination",{
+     data(){
+        return {    
+           
+      }
+},
+template:`    <ul class="pagination justify-content-center">
+      <li class="page-item"><button class="btn btn-light" v-show="this.pages"  @click="previousPage()">Previous</button></li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><button class="btn btn-light"  v-show=" this.totalPages > this.pages " @click="nextPage()">Next</button></li>
+    </ul>`
+}) 
   const app = new Vue({
     el: '#app',
     data: {
      // src: "",
       products: [],
-      pages: 1,
+      pages: 5,
       totalPages:null,
       perPage :10,
       sort : "desc",

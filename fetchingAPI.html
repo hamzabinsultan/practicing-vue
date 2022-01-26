@@ -38,7 +38,7 @@
 </style>
 
 <body>
-  <div  id="app" >
+  <div  id="app" v-on:click-next=" nextPage()" v-on:click-previous="previousPage()">
        <label for="pages">Select products per page:</label>
           <select name="pages" id="pages" v-model="perPage">
              <option value="10">10</option>
@@ -116,15 +116,15 @@
     }
   },
 template:`     <ul class="pagination justify-content-center">
-      <li class="page-item"><a class="page-link" @click="previousPage()" style="cursor:pointer">Previous</a></li>
+      <li class="page-item"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">Previous</a></li>
       <li class="page-item"><a class="page-link" href="#">1</a></li>
       <li class="page-item"><a class="page-link" href="#">2</a></li>
       <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link"  @click="nextPage()" style="cursor:pointer" >Next</a></li>
+      <li class="page-item"><a class="page-link"  v-on:click="$emit('click-next')" style="cursor:pointer" >Next</a></li>
     </ul>
         `, 
     props:{
-      pages: this.pages,
+
     }
 }) 
   const app = new Vue({

@@ -27,7 +27,12 @@ Vue.component("button-counter",{
              count : 0,
       }
 },
-template:`<button v-on:click="count++"> <slot></slot> you have clicked me{{count}} times</button>`
+metods:{
+     increment(){
+        this.count++
+     }
+},
+template:`<button v-on:click="increment()"> <slot></slot> you have clicked me{{count}} times</button>`
 }) 
 
 new Vue({ 

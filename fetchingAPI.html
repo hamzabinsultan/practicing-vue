@@ -90,7 +90,7 @@
  <pagination 
     v-on:click-next=" nextPage()" 
     v-on:click-previous="previousPage()" 
-    v-bind:page-number='pages'
+    v-bind:pagenumber="pages"
     v-on:click-first-page="firstPage()" 
     v-on:click-last-page="lastPage()"
     v-on:click-pagination = "pagination()"
@@ -103,90 +103,35 @@
   Vue.component("pagination",{
      data(){
         return {  
-          pages: 5,
+          pages: this.pagenumber,
           totalPages:null,
-          pagination :``,
+         // pagination :``,
         }  
   },
-   computed: { },
-  mounted() {
-      this.fetchAPI();
-   
-},
+
   methods:{
       console:function(){
       console.log(this.pages)
       console.log(this.totalPages)
       },
-     firstPage:function(){
-      this.pages = 1;
-      this.fetchAPI();
-      console.log(this.pages)
-
     },
-    lastPage:function(){
-      this.pages = this.totalPages;
-      this.fetchAPI();
-      console.log(this.pages)
-
-    },
-      previousPage: function () {
-        if (this.pages > 0) {
-          this.pages--;
-          this.fetchAPI();
-          console.log(this.pages)
-        }
-  },
-      nextPage: function () {
-        if(this.pages < this.totalPages){
-        this.pages++;
-        this.fetchAPI();
-        console.log(this.pages)
-      } 
-      },
-      fetchAPI: function () {
-        axios.get("https://api.officeworks.ph/wp-json/wc/v3/products",
-          {
-            params: {
-              consumer_key: "ck_db9dcbdc500e6ca14a2d8e954b0b78aa922e2f33",
-              consumer_secret: "cs_ee59f70a4178daffc626d3f92909233a1d015d30",
-              page: this.pages,
-              per_page : this.perPage,
-              order : this.sort,
-             orderby : this.sortBy,
-           },
-          })
-          .then(response => {
-            this.products = response.data;
-            this.totalPages = response.headers["x-wp-totalpages"];
-            console.log(response)
-            console.log(this.totalPages)
-            console.log(this.pages)
-         
-         
-     })
-          .catch(error => {
-            console.log(error)
-          })
-        }
-  },
 
 template:` 
     <ul class="pagination justify-content-center">
       <li class="page-item" ><a class="page-link"  style="cursor:pointer" v-on:click="$emit('click-first-page')">First Page</a></li>
-      <li class="page-item"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">Previous</a></li>
+      <li class="page-item"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">{{pagenumber}}</a></li>
      <button @click="console()"></button>
       <li class="page-item" ><a class="page-link"  v-on:click=" $emit('click-next')" style="cursor:pointer" >Next</a></li>
       <li class="page-item"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
     </ul>
         `, 
-    props:['pageNumber']
+    props:['pagenumber']
 }) 
   const app = new Vue({
     el: '#app',
     data: {
       products: [],
-      pages: 5,
+      pages: 6,
       totalPages:null,
       perPage :10,
       sort : "desc",

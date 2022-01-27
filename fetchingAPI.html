@@ -87,8 +87,14 @@
         </div>
     </div>
 
- <pagination v-on:click-next=" nextPage()" v-on:click-previous="previousPage()" v-bind:page-number='pages' v-on:click-first-page="firstPage()" ></pagination>
- <button @click="firstPage()"></button>
+ <pagination 
+    v-on:click-next=" nextPage()" 
+    v-on:click-previous="previousPage()" 
+    v-bind:page-number='pages'
+    v-on:click-first-page="firstPage()" 
+    v-on:click-last-page="lastPage()"
+  ></pagination>
+
 </div>
 
 </body>
@@ -119,9 +125,7 @@
   //     // console.log(this.pages)
   //   
   //   }
-    firstPage:function(){
-      this.pages = 1
-    }
+    
   },
   computed:{
  
@@ -134,7 +138,7 @@ template:`
       <li class="page-item"><a class="page-link" >{{pages}}</a></li>
       <li class="page-item"><a class="page-link" >{{pages+1}}</a></li>
       <li class="page-item"><a class="page-link"  v-on:click="$emit('click-next')" style="cursor:pointer" >Next</a></li>
-      <li class="page-item"><a class="page-link"  style="cursor:pointer">Last Page</a></li>
+      <li class="page-item"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
     </ul>
         `, 
     props:['pageNumber']
@@ -189,6 +193,18 @@ template:`
 //  console.log(`<li class="page-item"><a class="page-link" >{{i}}</a></li>`);
 //       }
 //     },
+firstPage:function(){
+      this.pages = 1;
+      this.fetchAPI();
+      console.log(this.pages)
+
+    },
+    lastPage:function(){
+      this.pages = this.totalPages;
+      this.fetchAPI();
+      console.log(this.pages)
+
+    },
       previousPage: function () {
         if (this.pages > 0) {
           this.pages--;

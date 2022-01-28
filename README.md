@@ -61,3 +61,30 @@ addtodo(){
    sort the product with respect to newest products
    I have to put condition in image because there is no image in some of the products.
 
+
+
+<!-- 
+ <li class="page-item"><a class="page-link"  v-on:click="$emit('click-pagination')" >{{pages-1}}</a></li>
+      {{pagiation}}
+      <li class="page-item"><a class="page-link" >{{pages}}</a></li>
+      <li class="page-item"><a class="page-link" >{{pages+1}}</a></li> -->
+
+
+      loooper.push({
+       { page-no : 1,
+       current-page: true/false
+       },
+        { page-no : 2,
+       current-page: true/false
+       }, { page-no : 3,
+       current-page: true/false
+       }, { page-no : 4,
+       current-page: true/false
+       }
+       )}
+
+         <li class="page-item"><a class="page-link" v-for ="(pagination ,index )in paginationarray">{{pagination.pageNo}}</a></li>
+
+
+         :paginationarray ="paginationArray"\
+         "paginationarray"

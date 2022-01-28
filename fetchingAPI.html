@@ -90,10 +90,14 @@
  <pagination 
     v-on:click-next=" nextPage()" 
     v-on:click-previous="previousPage()" 
-    v-bind:pagenumber="pages"
+    :pagenumber="pages"
+    :totalpages = "totalPages"
+    
     v-on:click-first-page="firstPage()" 
     v-on:click-last-page="lastPage()"
-    v-on:click-pagination = "pagination()"
+   
+
+
   ></pagination>
   <button @click="console()"></button>
 </div>
@@ -103,29 +107,21 @@
   Vue.component("pagination",{
      data(){
         return {  
-          pages: this.pagenumber,
-          totalPages:null,
-         // pagination :``,
+        //   pages: this.pagenumber,
+        //   totalPages:null,
+        //  // pagination :``,
         }  
   },
-
-  methods:{
-      console:function(){
-      console.log(this.pages)
-      console.log(this.totalPages)
-      },
-    },
-
 template:` 
     <ul class="pagination justify-content-center">
-      <li class="page-item" ><a class="page-link"  style="cursor:pointer" v-on:click="$emit('click-first-page')">First Page</a></li>
-      <li class="page-item"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">{{pagenumber}}</a></li>
-     <button @click="console()"></button>
-      <li class="page-item" ><a class="page-link"  v-on:click=" $emit('click-next')" style="cursor:pointer" >Next</a></li>
-      <li class="page-item"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
+      <li class="page-item" v-show="pagenumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="$emit('click-first-page')">First Page</a></li>
+      <li class="page-item" v-show="pagenumber > 1"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">previous</a></li>
+    
+      <li class="page-item"  v-show="totalpages > pagenumber"><a class="page-link"  v-on:click=" $emit('click-next')" style="cursor:pointer" >Next</a></li>
+      <li class="page-item" v-show="totalpages > pagenumber"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
     </ul>
         `, 
-    props:['pagenumber']
+    props:['pagenumber',"totalpages"]
 }) 
   const app = new Vue({
     el: '#app',
@@ -136,9 +132,21 @@ template:`
       perPage :10,
       sort : "desc",
       sortBy : "id",
+      paginationArray:[],
     
  
 },
+computed:{
+     pagination: function(){
+       console.log(this.pages)
+      for(var i = this.pages; i <= this.totalPages; i++){
+      this.paginationArray.push({
+        pageNo : this.pages,
+        currentPage : false
+    }) 
+  }
+     } 
+    },
     mounted() {
       this.fetchAPI();
    
@@ -184,6 +192,7 @@ template:`
       this.pages = this.totalPages;
       this.fetchAPI();
       console.log(this.pages)
+     
 
     },
       previousPage: function () {
@@ -198,6 +207,7 @@ template:`
         this.pages++;
         this.fetchAPI();
         console.log(this.pages)
+        console.log(this.paginationArray)
       } 
       },
       fetchAPI: function () {

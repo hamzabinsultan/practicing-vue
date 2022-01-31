@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="pagination"></div>
+</body>
+<script>
+  // const array = [];
+//  var paginator = function pagination(currentPage ,max, min) { 
+  //  const array = [];
+//    if(currentPage > 3){
+//     for(var j = currentPage -3  ; j < currentPage; j++ ){
+//         array.push({
+//              page : j,
+//              currentPagebool : false
+//      }) 
+//    }
+// }else if(currentPage > 2){  
+//        for(var j = currentPage -2  ; j < currentPage; j++ ){
+//         array.push({
+//              page : j,
+//              currentPagebool : false
+//      }) 
+//    }}else if(currentPage > 1){  
+//        for(var j = currentPage -1  ; j < currentPage; j++ ){
+//         array.push({
+//              page : j,
+//              currentPagebool : false
+//      }) 
+//    }}
+//    if(currentPage > 0 && currentPage < 100  ){
+//     array.push({
+//      page : currentPage,
+//      currentPagebool : true
+//      })
+//    }
+  
+//      if(currentPage < 99){
+//         for( var i=currentPage+1 ; i < currentPage + 3; i++){
+//     array.push({
+//      page : i,
+//      currentPagebool : false
+//      })  
+//     }
+//   }else if(currentPage < 100){
+//     for( var i=currentPage+1 ; i < currentPage + 2; i++){
+//     array.push({
+//      page : i,
+//      currentPagebool : false
+//      })  
+//     }
+//   }
+
+//      const array = [];
+// if(currentPage > min && currentPage < max){
+//     for(var j = currentPage-3   ; j < currentPage + 4 && j <= max; j++ ){
+//     array.push({
+//     page : j,
+//      currentPagebool : false
+// }) 
+
+// }
+// }
+    
+
+//  console.log(array)
+// }
+// paginator(6,100,1)
+ // array[currentPage].currentPagebool === flase?array[currentPage].currentPagebool = true:true;
+  // array[currentPage].currentPagebool = true
+function pagination (currentPage){
+var max_page = 20
+var i = (currentPage-3)
+var arr = []
+for(let q = i; q < (currentPage+4); q++){
+    if(q>=1&&q<=max_page){
+        arr.push({page: q, current: (q==currentPage?true:false)})
+    }
+}
+console.log(arr)
+} 
+pagination(8)
+</script>
+</html>
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+

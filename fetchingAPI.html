@@ -147,12 +147,15 @@ computed:{
 var i = (this.pages-3);
  //this.paginationArray = [];
 for(let q = i; q < (this.pages+4); q++){
-    if(q>=1&&q<=this.totalPages){
+    if(q>=1&&q<=this.totalPages&&this.paginationArray.length <= 6){
       this.paginationArray.push(
           {page: q, 
             current:(q==this.pages?true:false)
           })
       }
+//this.paginationArray.page = q;
+//     return{ page : i}
+     
    }
   }
 },

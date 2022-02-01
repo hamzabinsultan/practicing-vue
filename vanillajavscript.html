@@ -84,7 +84,7 @@
 let pages = document.getElementById("pagination")
 //pages.innerHTML = ``;
  // function pagination (currentPage){
-var currentPage = 18
+var currentPage = 5
 var max_page = 20
 var i = (currentPage-3)
 var arr = []
@@ -94,11 +94,11 @@ for(let q = i; q < (currentPage+4); q++){
           {page: q, 
             current:(q==currentPage?true:false)
           })
-  arr.forEach((array)=>{
-    pages.innerHTML += `<button>${array.page}</button>`
-  })
-    }
+     }
 }
+arr.forEach((array, index)=>{
+    pages.innerHTML +=  ` <button>${array.page}</button>`
+  })
 console.log(arr)
 console.log(Boolean)
 

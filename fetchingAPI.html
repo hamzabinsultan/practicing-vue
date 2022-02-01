@@ -105,13 +105,13 @@
   },
   computed:{
  paginationFunction: function() { 
-var i = (this.currentPage-3);
+var i = (this.pageNumber-3);
 var paginationArray=[];
-for(let q = i; q < (currentPage+4); q++){
-   if(q>=1&&q<=this.maxPage&&paginationArray.length <= 6){
+for(let q = i; q < (this.pageNumber+4); q++){
+   if(q>=1&&q<=this.totalPages&&paginationArray.length <= 6){
         paginationArray.push(
          {page: q, 
-           current:(q==this.currentPage?true:false)
+           current:(q==this.pageNumber?true:false)
          })
      }
 }
@@ -121,11 +121,11 @@ return paginationArray;
 template:` 
     <ul class="pagination pager justify-content-center">
       <li class="page-item" v-show="pageNumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="1">First Page</a></li>
-      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click="currentPage-1" style="cursor:pointer">previous</a></li>
-     <a class="page-link"    v-for="pages in paginationArray"   style="cursor:pointer">{{pages.page}}</a>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click="pageNumber-1" style="cursor:pointer">previous</a></li>
+     <a class="page-link"    v-for="pages in paginationFunction"   style="cursor:pointer">{{pages.page}}</a>
     
-     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click="currentPage+1" style="cursor:pointer" >Next</a></li>
-      <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click="maxPage">Last Page</a></li>
+     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click="pageNumber+1" style="cursor:pointer" >Next</a></li>
+      <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click="totalPages">Last Page</a></li>
     </ul>
         `, 
     props:['pageNumber',"totalPages","paginationarray"]

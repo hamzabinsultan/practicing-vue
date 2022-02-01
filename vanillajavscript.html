@@ -7,7 +7,11 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="pagination"></div>
+  <div  id = "pagination">
+ 
+   
+ 
+    </div>
 </body>
 <script>
   // const array = [];
@@ -73,18 +77,32 @@
 // paginator(6,100,1)
  // array[currentPage].currentPagebool === flase?array[currentPage].currentPagebool = true:true;
   // array[currentPage].currentPagebool = true
-function pagination (currentPage){
+
+
+
+// yaseen bhai code
+let pages = document.getElementById("pagination")
+//pages.innerHTML = ``;
+ // function pagination (currentPage){
+var currentPage = 18
 var max_page = 20
 var i = (currentPage-3)
 var arr = []
 for(let q = i; q < (currentPage+4); q++){
     if(q>=1&&q<=max_page){
-        arr.push({page: q, current: (q==currentPage?true:false)})
+        arr.push(
+          {page: q, 
+            current:(q==currentPage?true:false)
+          })
+  arr.forEach((array)=>{
+    pages.innerHTML += `<button>${array.page}</button>`
+  })
     }
 }
 console.log(arr)
-} 
-pagination(8)
+console.log(Boolean)
+
+
 </script>
 </html>
 

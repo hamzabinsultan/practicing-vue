@@ -86,12 +86,16 @@
           </div>
         </div>
     </div>
+    <div>
+      <button>{{paginationfunction}}</button>
+    </div>
  <pagination 
     v-on:click-next=" nextPage()" 
     v-on:click-page ="pagination()"
     v-on:click-previous="previousPage()" 
     :pagenumber="pages"
     :totalpages = "totalPages"
+    :paginationarray = "paginationArray"
     
     v-on:click-first-page="firstPage()" 
     v-on:click-last-page="lastPage()"
@@ -110,16 +114,17 @@
         }  
   },
 template:` 
-    <ul class="pagination justify-content-center">
+    <ul class="pagination pager justify-content-center">
       <li class="page-item" v-show="pagenumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="$emit('click-first-page')">First Page</a></li>
       <li class="page-item" v-show="pagenumber > 1"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">previous</a></li>
-      <li class="page-item "><a class="page-link"  >{{pagenumber}}</a></li>
-      <button  v-on:click =" $emit('click-page')"></button>
+     <a class="page-link" v-for ="pages in paginationarray"  style="cursor:pointer">{{pages.page}}</a>
+    
+ 
       <li class="page-item"  v-show="totalpages > pagenumber"><a class="page-link"  v-on:click=" $emit('click-next')" style="cursor:pointer" >Next</a></li>
       <li class="page-item" v-show="totalpages > pagenumber"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
     </ul>
         `, 
-    props:['pagenumber',"totalpages"]
+    props:['pagenumber',"totalpages","paginationarray"]
 }) 
   const app = new Vue({
     el: '#app',
@@ -135,10 +140,25 @@ template:`
  
 },
 computed:{
-  
-    },
+ 
+  paginationfunction: function() { 
+ //var currentPage = 7;
+ //var max_page = this.totalPages;
+var i = (this.pages-3);
+ //this.paginationArray = [];
+for(let q = i; q < (this.pages+4); q++){
+    if(q>=1&&q<=this.totalPages){
+      this.paginationArray.push(
+          {page: q, 
+            current:(q==this.pages?true:false)
+          })
+      }
+   }
+  }
+},
     mounted() {
       this.fetchAPI();
+
    
 },
     watch:{
@@ -192,33 +212,14 @@ computed:{
           console.log(this.pages)
         }
   },
-  pagination: function() { 
-      for(var j = this.pages -3  ; j < this.pages; j++ ){
-       this.paginationArray.push({
-     page : j,
-     currentPagebool : false
-     }) 
-  } 
-  this.paginationArray.push({
-     page : this.pages,
-     currentPagebool : false
-     }) 
-     for( var i=this.pages+1 ; i < this.pages + 4; i++){
-      this.paginationArray.push({
-     page : i,
-     currentPagebool : false
-     })  
-  }
-},
+
       nextPage: function () {
         if(this.pages < this.totalPages){
         this.pages++;
         this.fetchAPI();
-        pagination();
         console.log(this.pages)
-        console.log(this.paginationArray)
-      } 
-      },
+       } 
+    },
       fetchAPI: function () {
         axios.get("https://api.officeworks.ph/wp-json/wc/v3/products",
           {

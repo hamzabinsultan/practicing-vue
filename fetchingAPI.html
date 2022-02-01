@@ -90,6 +90,8 @@
  <pagination 
  :page-number="pages"
  :total-pages="totalPages"
+ v-on:click-next=" nextPage()" 
+ v-on:click-previous="previousPage()" 
 
  ></pagination>
 </div>
@@ -98,8 +100,8 @@
   Vue.component("pagination",{
      data(){
         return {  
-      currentPage : 6,
-      maxPage : 20,
+      //currentPage : 6,
+      //maxPage : 20,
       // paginationArray : [],
         }  
   },
@@ -108,7 +110,7 @@
 var i = (this.pageNumber-3);
 var paginationArray=[];
 for(let q = i; q < (this.pageNumber+4); q++){
-   if(q>=1&&q<=this.totalPages&&paginationArray.length <= 6){
+   if(q>=1&&q<=this.totalPages){
         paginationArray.push(
          {page: q, 
            current:(q==this.pageNumber?true:false)
@@ -121,10 +123,10 @@ return paginationArray;
 template:` 
     <ul class="pagination pager justify-content-center">
       <li class="page-item" v-show="pageNumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="1">First Page</a></li>
-      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click="pageNumber-1" style="cursor:pointer">previous</a></li>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">previous</a></li>
      <a class="page-link"    v-for="pages in paginationFunction"   style="cursor:pointer">{{pages.page}}</a>
     
-     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click="pageNumber+1" style="cursor:pointer" >Next</a></li>
+     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click= "$emit('click-next')" style="cursor:pointer" >Next</a></li>
       <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click="totalPages">Last Page</a></li>
     </ul>
         `, 
@@ -196,7 +198,7 @@ template:`
   },
      nextPage: function () {
         if(this.pages < this.totalPages){
-        this.pages++;
+        this.pages ++;
         this.fetchAPI();
         console.log(this.pages)
        } 

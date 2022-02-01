@@ -90,41 +90,47 @@
       <button>{{paginationfunction}}</button>
     </div>
  <pagination 
-    v-on:click-next=" nextPage()" 
-    v-on:click-page ="pagination()"
-    v-on:click-previous="previousPage()" 
-    :pagenumber="pages"
-    :totalpages = "totalPages"
-    :paginationarray = "paginationArray"
-    
-    v-on:click-first-page="firstPage()" 
-    v-on:click-last-page="lastPage()"
- ></pagination>
-  <button @click="console()"></button>
-</div>
+ :page-number="pages"
+ :total-pages="totalPages"
 
+ ></pagination>
+</div>
 </body>
 <script>
   Vue.component("pagination",{
      data(){
         return {  
-        //   pages: this.pagenumber,
-        //   totalPages:null,
-        //  // pagination :``,
+      // pages: pagenumber,
+        // totalPages:null,
+        paginationArray : [],
         }  
   },
+  computed:{
+ paginationFunction: function() { 
+var i = (pageNumber-3);
+//var paginationArray=[];
+for(let q = i; q < (pageNumber+4); q++){
+   if(q>=1&&q<=totalPages&&this.paginationArray.length <= 6){
+    this.paginationArray.push(
+         {page: q, 
+           current:(q==pageNumber?true:false)
+         })
+     }
+}
+ }
+},
 template:` 
     <ul class="pagination pager justify-content-center">
-      <li class="page-item" v-show="pagenumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="$emit('click-first-page')">First Page</a></li>
-      <li class="page-item" v-show="pagenumber > 1"><a class="page-link" v-on:click="$emit('click-previous')" style="cursor:pointer">previous</a></li>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="1">First Page</a></li>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click="pageNumber-1" style="cursor:pointer">previous</a></li>
      <a class="page-link" v-for ="pages in paginationarray"  style="cursor:pointer">{{pages.page}}</a>
     
  
-      <li class="page-item"  v-show="totalpages > pagenumber"><a class="page-link"  v-on:click=" $emit('click-next')" style="cursor:pointer" >Next</a></li>
-      <li class="page-item" v-show="totalpages > pagenumber"><a class="page-link"  style="cursor:pointer" v-on:click =" $emit('click-last-page')">Last Page</a></li>
+      <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click="pageNumber+1" style="cursor:pointer" >Next</a></li>
+      <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click="totalPages">Last Page</a></li>
     </ul>
         `, 
-    props:['pagenumber',"totalpages","paginationarray"]
+    props:['pageNumber',"totalPages","paginationarray"]
 }) 
   const app = new Vue({
     el: '#app',
@@ -135,30 +141,11 @@ template:`
       perPage :10,
       sort : "desc",
       sortBy : "id",
-      paginationArray:[],
+   
     
  
 },
-computed:{
- 
-  paginationfunction: function() { 
- //var currentPage = 7;
- //var max_page = this.totalPages;
-var i = (this.pages-3);
- //this.paginationArray = [];
-for(let q = i; q < (this.pages+4); q++){
-    if(q>=1&&q<=this.totalPages&&this.paginationArray.length <= 6){
-      this.paginationArray.push(
-          {page: q, 
-            current:(q==this.pages?true:false)
-          })
-      }
-//this.paginationArray.page = q;
-//     return{ page : i}
-     
-   }
-  }
-},
+
     mounted() {
       this.fetchAPI();
 
@@ -191,23 +178,17 @@ for(let q = i; q < (this.pages+4); q++){
    }
     },
     // METHODS
-    methods: {
-      console:function(){
-      console.log(this.pages)
-      },
+    methods: {  
     firstPage:function(){
       this.pages = 1;
       this.fetchAPI();
       console.log(this.pages)
-
     },
     lastPage:function(){
       this.pages = this.totalPages;
       this.fetchAPI();
       console.log(this.pages)
-     
-
-    },
+     },
       previousPage: function () {
         if (this.pages > 0) {
           this.pages--;
@@ -215,8 +196,7 @@ for(let q = i; q < (this.pages+4); q++){
           console.log(this.pages)
         }
   },
-
-      nextPage: function () {
+     nextPage: function () {
         if(this.pages < this.totalPages){
         this.pages++;
         this.fetchAPI();

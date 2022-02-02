@@ -48,7 +48,7 @@
           completed: false,
       
         })
-        this.todoTask = "";
+        this.todoTask = "";// it is clearing input field
         localStorage.setItem("key", JSON.stringify(this.todoList));
       },
       removeTodo: function (index) {
@@ -61,7 +61,7 @@
      this.todoList[index] = lastIndex;
      this.todoList[index-1] = currentIndex;
      this.$forceUpdate()
-     console.log(this.todoList)
+     console.log(this.todoList[index+1])
       },
       goingDown: function(index){ 
      let currentIndex = this.todoList[index];
@@ -69,7 +69,7 @@
      this.todoList[index] = nextIndex;
      this.todoList[index+1]= currentIndex;
      this.$forceUpdate()
-    console.log(this.todoList)
+    console.log(this.todoList[index-1])
       },
       taskToggle: function (todo) {
         todo.completed = !todo.completed;
@@ -81,6 +81,7 @@
       if(getStorage){
         this.todoList = JSON.parse(getStorage)
       }
+ 
     }
   })
 </script>

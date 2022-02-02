@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://unpkg.com/vuex"></script>
+    <title>Document</title>
+</head>
+<body>
+ <div id= "app">
+   <todolist></todolist>
+ </div>
+</body>
+<script>
+/////// here I am defining a new component called todolist//////////////////
+    Vue.component("todolist",{
+      data(){
+          return{
+      
+          }
+        },
+      template : ` 
+      <div id="todo">
+            <p>Add a TODO <input type="text" v-model="this.$store.state.todoTask" placeholder="E.g. Feed the cat"></p>
+            <button v-show ="this.$store.state.todoTask" @click="addNewTodo">addNewTodo</button>
+        <ol>
+          <li v-for="(todo, index,) in this.$store.state.todoList">
+              <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
+              <button @click="removeTodo(index)">Delete</button> |
+              <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark {{todo.completed===true?'Completed':'Incomplete'}} </button>
+             <button v-show="this.$store.state.todoList[index-1]" @click="goingUp(index)">Up</button><button v-show="this.$store.state.todoList[index+1]"   @click="goingDown(index)">Down</button>
+          </li>
+       </ol>
+  </div>`,
+  methods:{
+     addNewTodo(){
+    this.$store.commit("addNewTodos")
+        },
+     removeTodo(){
+         this.$store.commit('removeTodo',index)
+     },
+    },
+  
+   })
+///////////////// here I am defining vuex store ////////////////////////////
+
+ const store = new Vuex.Store({
+     state:{
+        todoTask : "",
+        todoList :[]
+     },
+     mutations:{
+        addNewTodo: function (state) {
+        state.todoList.push({
+          title: state.todoTask,
+          completed: false,
+      
+        })
+        state.todoTask = "";// it is clearing input field
+        localStorage.setItem("key", JSON.stringify(state.todoList));
+      },
+      removeTodo: function (state,payload) {
+        state.todoList.splice(payload , 1)
+        localStorage.setItem("key", JSON.stringify(state.todoList));
+      },
+      goingUp: function(state, index){
+      let currentIndex = state.todoList[index];
+     let lastIndex = state.todoList[index-1];
+     state.todoList[index] = lastIndex;
+     state.todoList[index-1] = currentIndex;
+     state.$forceUpdate()
+     console.log(state.todoList)
+      },
+      goingDown: function(state, index){ 
+     let currentIndex = state.todoList[index];
+     let nextIndex = state.todoList[index+1];
+     state.todoList[index] = nextIndex;
+     state.todoList[index+1]= currentIndex;
+     state.$forceUpdate()
+    console.log(state.todoList)
+      },
+      taskToggle: function (todo) {
+        todo.completed = !todo.completed;
+      },
+     }
+ })
+////here I am definig new Vue instance 
+const app = new Vue({
+    el : "#app",
+    store, // If you're using ES6, you can also go for ES6 object property shorthand notation (it's used when object key has the same name as the variable passed-in as a property
+    data:{
+     
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

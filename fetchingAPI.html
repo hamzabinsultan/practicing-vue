@@ -90,8 +90,8 @@
  <pagination 
  :page-number="pages"
  :total-pages="totalPages"
- v-on:click-next=" pages += $event" 
- v-on:click-previous="pages -= $event"
+ v-on:goto-page="pages = $event" 
+
  
 
  ></pagination>
@@ -121,12 +121,11 @@ return paginationArray;
 },
 template:` 
     <ul class="pagination pager justify-content-center">
-      <li class="page-item" v-show="pageNumber > 1"><a class="page-link"  style="cursor:pointer" v-on:click="1">First Page</a></li>
-      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click= "$emit('click-next',1)" style="cursor:pointer">previous</a></li>
-     <a class="page-link"    v-for="pages in paginationFunction"  v-on:click= "$emit('click-currentpage',)"  style="cursor:pointer">{{pages.page}}</a>
-    
-     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click= "$emit('click-next',1)" style="cursor:pointer" >Next</a></li>
-      <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click="totalPages">Last Page</a></li>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link"  style="cursor:pointer"  v-on:click= "$emit('goto-page',1)" >First Page</a></li>
+      <li class="page-item" v-show="pageNumber > 1"><a class="page-link" v-on:click= "$emit('goto-page',pageNumber-1)" style="cursor:pointer">previous</a></li>
+     <a class="page-link"    v-for="pages in paginationFunction"  v-on:click= "$emit('goto-page',pages.page)"  style="cursor:pointer">{{pages.page}}</a>
+     <li class="page-item"  v-show="totalPages > pageNumber"><a class="page-link"  v-on:click= "$emit('goto-page',pageNumber+1)" style="cursor:pointer" >Next</a></li>
+      <li class="page-item" v-show="totalPages > pageNumber"><a class="page-link"  style="cursor:pointer" v-on:click= "$emit('goto-page',totalPages)" >Last Page</a></li>
     </ul>
         `, 
     props:['pageNumber',"totalPages"]
@@ -148,6 +147,10 @@ template:`
      perPage(value){
       this.perPage =  value;
        this.fetchAPI();
+  },
+  pages(value){
+    this.pages = value;
+    this.fetchAPI();
   },
     sort(value){
        console.log(value)

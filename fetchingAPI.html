@@ -91,18 +91,14 @@
  :page-number="pages"
  :total-pages="totalPages"
  v-on:goto-page="pages = $event" 
-
- 
-
- ></pagination>
+></pagination>
 </div>
 </body>
 <script>
   Vue.component("pagination",{
      data(){
         return {  
-     
-        }  
+     }  
   },
   computed:{
  paginationFunction: function() { 
@@ -217,10 +213,8 @@ template:`
             console.log(response)
             console.log(this.totalPages)
             console.log(this.pages)
-        
-         
-     })
-          .catch(error => {
+      })
+       .catch(error => {
             console.log(error)
           })
       },

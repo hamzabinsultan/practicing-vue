@@ -46,26 +46,9 @@
              <option value="25">25</option>
              <option value="50">50</option>
             <option value="100">100</option>
-          </select>
-          <!-- <span>
-            <label for="pages">Sort products by :</label>
-            <select name="pages" id="pages" v-model="sortBy">
-               <option value="price">price</option>
-               <option value="date">date</option>
-               <option value="id">id</option>
-             
-            </select>
-          </span> -->
-          <!-- <span>
-            <label for="pages">high to low & low to high :</label>
-            <select name="pages" id="pages" v-model="sort">
-               <option value="low to high" >low to high</option>
-               <option value="high to low">high to low</option>
-               <option value="newest product">newest product</option>
-            </select>
-          </span> -->
+          </select>    
       <span>
-            <label for="sort">high to low & low to high:</label>
+        <label for="sort">high to low & low to high:</label>
         <select id="sort"  v-model="sort">
            <option value="low to high" selected>low to high</option>
            <option value="high to low">high to low</option>
@@ -170,32 +153,7 @@ template:`
     },
     // METHODS
     methods: {  
-    firstPage:function(){
-      this.pages = 1;
-      this.fetchAPI();
-      console.log(this.pages)
-    },
-    lastPage:function(){
-      this.pages = this.totalPages;
-      this.fetchAPI();
-      console.log(this.pages)
-     },
-      previousPage: function () {
-        if (this.pages > 0) {
-          this.pages--;
-          this.fetchAPI();
-          console.log(this.pages)
-        }
-  },
-     nextPage: function (one) {
-        if(this.pages < this.totalPages){
-       this.pages = one;
-        
-        this.fetchAPI();
-        console.log(this.pages)
-       } 
-    },
-      fetchAPI: function () {
+    fetchAPI: function () {
         axios.get("https://api.officeworks.ph/wp-json/wc/v3/products",
           {
             params: {

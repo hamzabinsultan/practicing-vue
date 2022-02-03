@@ -11,21 +11,22 @@
 <body>
     <div id="app">
         <inputcomp></inputcomp>
-        <btn name-btn="addNewTodo"></btn>
+        <btn name-btn="addNewTodo" v-on:do-task="addNewTodo"></btn>
         <btn name-btn="MarkTodo"></btn>
         <btn name-btn="removeTodo"></btn>
         <btn name-btn="UP"></btn>
         <btn name-btn="Down"></btn>
+        <list></list>
        
     </div>
 </body>
 <script>
 // btn component 
 Vue.component("btn",{
-        template:`<button>{{nameBtn}}</button>`,
+        template:`<button v-on:click="$emit('do-task')" >{{nameBtn}}</button>`,
         props:["nameBtn"],
         methods:{
-        
+          //btnFunc
         }
 
     })
@@ -49,10 +50,17 @@ Vue.component("inputcomp",{
 Vue.component("list",{
     template : `
     <ol>
-        <li>
-            
+        <li v-for="(todo, index,) in listloop">
+            <p>{{todo.taskTodo}}</p>
         </li>
-    </ol>`
+    </ol>`,
+    computed:{
+        listloop: function(){
+          return store.state.todoList;
+          console.log( store.state.todoList)
+        }
+    }
+
 })
 //Vuex store
 const store = new Vuex.Store({
@@ -64,6 +72,12 @@ const store = new Vuex.Store({
       updateMessage (state,value){
          state.todoTask = value,
          console.log(state.todoTask)
+      },
+      addNewTodo(state){
+          state.todoList.push({
+              taskTodo: state.todoTask,
+              status : false
+          })
       }
     
   }

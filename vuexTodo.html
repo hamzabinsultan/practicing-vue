@@ -8,14 +8,25 @@
     <script src="https://unpkg.com/vuex"></script>
     <title>Document</title>
 </head>
+<style>
+    .todoTaskCompleted {
+      text-decoration-line: line-through;
+   }
+  .markCompleted {
+      background-color: green;
+    }
+  .deleteButton {
+      background-color: red;
+    }
+  </style>
 <body>
  <div id= "app">
    <inputcomponent
-      :todo-task = "this.$store.state.todoTask"
+      :todo-task = "$store.state.todoTask"
    ></inputcomponent>
    <btncomponent
-       :todo-list = "this.$store.state.todoList"
-       :todo-task = "this.$store.state.todoTask"
+       :todo-list = "$store.state.todoList"
+       :todo-task = "$store.state.todoTask"
    ></btncomponent>
 </div>
 </body>
@@ -40,10 +51,10 @@
     </div>`,
 methods:{
    goingUp(){
-       this.$store.commit("goingUp", index)
+       this.$store.commit("goingUp",index)
    },
    goingDown(){
-       this.$store.commit("goingDown", index)
+       this.$store.commit("goingDown",index)
    }, 
      removeTodo(){
          this.$store.commit('removeTodo',index)
@@ -51,19 +62,16 @@ methods:{
 },
 computed:{
      loopthroughtodolist(){
-     todoListArray = []
-    todoListArray.push({
-        title : todoTask,
+     //todoListArray = []
+   this.todoList.push({
+        title : this.todoTask,
         completed : false
     })
-      return todoListArray;
+      return  this.todoList;
      },
-     ...mapState({
-         todoTask :"todoTask",
-         todoList : "todoList"
-     })
+
 },
-//props: ["todoList","todoTask"],
+props: ["todoList","todoTask"],
  })
 //here I am defining input component
 Vue.component("inputcomponent",{
@@ -74,9 +82,19 @@ Vue.component("inputcomponent",{
         },
   template : ` 
       <div id="todo">
-            <p>Add a TODO <input type="text" v-model="this.$store.state.todoTask" placeholder="E.g. Feed the cat"></p>
+            <p>Add a TODO <input type="text" v-model="todoTasks" placeholder="E.g. Feed the cat"></p>
             <button v-show ="todoTask" @click="addNewTodo">addNewTodo</button>
       </div>`,
+  computed:{
+    todoTasks: {
+    get () {
+      return this.$store.state.todoTask
+    },
+    set (value) {
+      this.$store.commit('updateMessage', value)
+    }
+  }
+  },
   methods:{
     addNewTodo(){
     this.$store.commit("addNewTodos")
@@ -92,6 +110,9 @@ const store = new Vuex.Store({
         todoList :[]
      },
      mutations:{
+     ubdateMessage: function(state, value){
+          state.todotask = value
+     },
      addNewTodo: function (state) {
         state.todoList.push({
                 title: state.todoTask,
@@ -133,34 +154,10 @@ const app = new Vue({
      
     },
     components : {
-        inputcomponent,
-        btncomponent
+        // inputcomponent,
+        // btncomponent
     }
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </script>

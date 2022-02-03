@@ -8,85 +8,32 @@
     <script src="https://unpkg.com/vuex"></script>
     <title>Document</title>
 </head>
-<style>
-    .todoTaskCompleted {
-      text-decoration-line: line-through;
-   }
-  .markCompleted {
-      background-color: green;
-    }
-  .deleteButton {
-      background-color: red;
-    }
-  </style>
 <body>
- <div id= "app">
-   <inputcomponent
-      :todo-task = "$store.state.todoTask"
-   ></inputcomponent>
-   <btncomponent
-       :todo-list = "$store.state.todoList"
-       :todo-task = "$store.state.todoTask"
-   ></btncomponent>
-</div>
+    <div id="app">
+        <inputcomp></inputcomp>
+        <btn name-btn="addNewTodo"></btn>
+        <btn name-btn="MarkTodo"></btn>
+        <btn name-btn="removeTodo"></btn>
+        <btn name-btn="UP"></btn>
+        <btn name-btn="Down"></btn>
+       
+    </div>
 </body>
 <script>
-// here I am defining btncomponent
- Vue.component("btncomponent",{
- data(){
-     return{
+// btn component 
+Vue.component("btn",{
+        template:`<button>{{nameBtn}}</button>`,
+        props:["nameBtn"],
+        methods:{
+        
+        }
 
-     }
- },
- template: `
-    <div>
-        <ol>
-          <li v-for="(todo, index,) in loopthroughtodolist">
-              <p :class="{ todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
-              <button @click="removeTodo(index)">Delete</button> |
-              <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark {{todo.completed===true?'Completed':'Incomplete'}} </button>
-             <button v-show="todoList[index-1]" @click="goingUp(index)">Up</button><button v-show="todoList[index+1]"   @click="goingDown(index)">Down</button>
-          </li>
-       </ol>
-    </div>`,
-methods:{
-   goingUp(){
-       this.$store.commit("goingUp",index)
-   },
-   goingDown(){
-       this.$store.commit("goingDown",index)
-   }, 
-     removeTodo(){
-         this.$store.commit('removeTodo',index)
-   },
-},
-computed:{
-     loopthroughtodolist(){
-     //todoListArray = []
-   this.todoList.push({
-        title : this.todoTask,
-        completed : false
     })
-      return  this.todoList;
-     },
-
-},
-props: ["todoList","todoTask"],
- })
-//here I am defining input component
-Vue.component("inputcomponent",{
-  data(){
-        return{
-          
-          }
-        },
-  template : ` 
-      <div id="todo">
-            <p>Add a TODO <input type="text" v-model="todoTasks" placeholder="E.g. Feed the cat"></p>
-            <button v-show ="todoTask" @click="addNewTodo">addNewTodo</button>
-      </div>`,
-  computed:{
-    todoTasks: {
+//  inputcomponent 
+Vue.component("inputcomp",{
+  template:`<input v-model ="todoTask">`,
+  computed: {
+    todoTask: {
     get () {
       return this.$store.state.todoTask
     },
@@ -94,71 +41,38 @@ Vue.component("inputcomponent",{
       this.$store.commit('updateMessage', value)
     }
   }
-  },
-  methods:{
-    addNewTodo(){
-    this.$store.commit("addNewTodos")
-        },
-    },
-    props:["todoTask"]
-  
-   })
-//here I am defining vuex store 
-const store = new Vuex.Store({
-     state:{
-        todoTask : "",
-        todoList :[]
-     },
-     mutations:{
-     ubdateMessage: function(state, value){
-          state.todotask = value
-     },
-     addNewTodo: function (state) {
-        state.todoList.push({
-                title: state.todoTask,
-                 completed: false,
-      })
-            state.todoTask = "";// it is clearing input field
-            localStorage.setItem("key", JSON.stringify(state.todoList));
-      },
-      removeTodo: function (state,payload) {
-                 state.todoList.splice(payload , 1)
-            localStorage.setItem("key", JSON.stringify(state.todoList));
-      },
-      goingUp: function(state, index){
-            let currentIndex = state.todoList[index];
-            let lastIndex = state.todoList[index-1];
-            state.todoList[index] = lastIndex;
-            state.todoList[index-1] = currentIndex;
-            state.$forceUpdate()
-            console.log(state.todoList)
-      },
-      goingDown: function(state, index){ 
-             let currentIndex = state.todoList[index];
-            let nextIndex = state.todoList[index+1];
-            state.todoList[index] = nextIndex;
-            state.todoList[index+1]= currentIndex;
-             state.$forceUpdate()
-            console.log(state.todoList)
-      },
-      taskToggle: function (todo) {
-            todo.completed = !todo.completed;
-      },
-     }
- })
-//here I am definig new Vue instance 
-const app = new Vue({
-    el : "#app",
-    store, // If you're using ES6, you can also go for ES6 object property shorthand notation (it's used when object key has the same name as the variable passed-in as a property
-    data:{
-     
-    },
-    components : {
-        // inputcomponent,
-        // btncomponent
-    }
+
+  }
+
 })
+//list component li ol
+Vue.component("list",{
+    template : `
+    <ol>
+        <li>
+            
+        </li>
+    </ol>`
+})
+//Vuex store
+const store = new Vuex.Store({
+  state: {
+     todoTask :"",
+     todoList : []
+  },
+  mutations: {
+      updateMessage (state,value){
+         state.todoTask = value,
+         console.log(state.todoTask)
+      }
+    
+  }
+})
+//Vue instance
+const app = new Vue({
+el: "#app",
+store,
 
-
+})
 </script>
 </html>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,92 +9,123 @@
     <script src="https://unpkg.com/vuex"></script>
     <title>Document</title>
 </head>
+
 <body>
     <div id="app">
         <inputcomp></inputcomp>
         <btn text="addNewTodo" v-on:do-task="addNewTodo"></btn>
-        <!-- <btn text="MarkTodo"></btn>
-        <btn text="removeTodo"></btn>
-        <btn text="UP"></btn>
-        <btn text="Down"></btn> -->
         <list></list>
-       
+
+
     </div>
 </body>
 <script>
-// btn component 
-Vue.component("btn",{
-        template:`<button v-on:click="$emit('do-task')" >{{text}}</button>`,
-        props:["text"],
-        methods:{
-            addNewTodo(){
-            this.$store.commit("addNewTodo")
-        },
-            },
-        
+    // btn component 
+    Vue.component("btn", {
+        template:
+            `<button v-on:click="$emit('do-task', index)" >{{text}}</button>`,
+        props: ["text"],
+    })
+    //  inputcomponent 
+    Vue.component("inputcomp", {
+        template: `<input v-model ="todoTask">`,
+        computed: {
+            todoTask: {
+                get() {
+                    return this.$store.state.todoTask
+                },
+                set(value) {
+                    this.$store.commit('updateMessage', value)
+                }
+            }
+
+        }
 
     })
-//  inputcomponent 
-Vue.component("inputcomp",{
-  template:`<input v-model ="todoTask">`,
-  computed: {
-    todoTask: {
-    get () {
-      return this.$store.state.todoTask
-    },
-    set (value) {
-      this.$store.commit('updateMessage', value)
-    }
-  }
-
-  }
-
-})
-//list component li ol
-Vue.component("list",{
-    template : `
+    //list component li ol
+    Vue.component("list", {
+        template: `
     <ol>
         <li v-for="(todo, index,) in listloop">
-            <p>{{todo.taskTodo}}</p>
+            <p>{{todo.taskTodo}}</p> <btn text="Delete" v-on:do-task="deleteTask"></btn>|<btn text="UP" v-on:do-task="goUp"></btn>|<btn text="Down" v-on:do-task="goDown"></btn>
         </li>
     </ol>`,
-    computed:{
-        listloop: function(){
-          return store.state.todoList;
-          console.log( store.state.todoList)
+        computed: {
+            listloop: function () {
+                console.log(store.state.todoList)
+                return store.getters.loopTodoList;
+            }
+        },
+        methods: {
+            goUp(index) {
+                this.$store.commit("goingUp",index)
+            },
+            goDown(index) {
+                this.$store.commit("goingDown",index)
+            },
+            deleteTask(index) {
+                this.$store.commit("removeTodo",index)
+            }
+        },
+
+    })
+    //Vuex store
+    const store = new Vuex.Store({
+        state: {
+            todoTask: "",
+            todoList: []
+        },
+        mutations: {
+            updateMessage(state, value) {
+                state.todoTask = value,
+                    console.log(state.todoTask)
+            },
+            addNewTodo(state) {
+                state.todoList.push({
+                    taskTodo: state.todoTask,
+                    status: false
+                })
+                state.todoTask = "";
+            },
+            goingDown: function (state, index) {
+                let currentIndex = state.todoList[index];
+                let nextIndex = state.todoList[index + 1];
+                state.todoList[index] = nextIndex;
+                state.todoList[index + 1] = currentIndex;
+                //  state.$forceUpdate()
+                console.log(state.todoList[index - 1])
+            },
+            goingUp: function (state, index) {
+                let currentIndex = state.todoList[index];
+                let lastIndex = state.todoList[index - 1];
+                state.todoList[index] = lastIndex;
+                state.todoList[index - 1] = currentIndex;
+                // state.$forceUpdate()
+                console.log(state.todoList[index + 1])
+            },
+            removeTodo: function (state, index) {
+                state.todoList.splice(index, 1)
+            },
+
+        },
+        getters: {
+            loopTodoList: function (state) {
+                console.log(store.state.todoList)
+                return state.todoList;
+            }
         }
-    }
+    })
+    //Vue instance
+    const app = new Vue({
+        el: "#app",
+        store,
+        methods: {
+            addNewTodo() {
+                this.$store.commit("addNewTodo")
+            },
+        }
 
-})
-//Vuex store
-const store = new Vuex.Store({
-  state: {
-     todoTask :"",
-     todoList : []
-  },
-  mutations: {
-      updateMessage (state,value){
-         state.todoTask = value,
-         state.todoList.push({
-              taskTodo: state.todoTask,
-              status : false
-          })
-         console.log(state.todoTask)
-      },
-      addNewTodo(state){
-          state.todoList.push({
-              taskTodo: state.todoTask,
-              status : false
-          })
-      }
-    
-  }
-})
-//Vue instance
-const app = new Vue({
-el: "#app",
-store,
-
-})
+    })
 </script>
+
 </html>

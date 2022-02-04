@@ -21,7 +21,7 @@
     // btn component 
     Vue.component("btn", {
         template:
-            `<button v-on:click="$emit('do-task', index)" >{{text}}</button>`,
+            `<button v-on:click="$emit('do-task')" >{{text}}</button>`,
         props: ["text"],
     })
     //  inputcomponent 
@@ -82,7 +82,7 @@
                 })
                 state.todoTask = "";
             },
-            goingDown: function (state, index) {
+            goingDown: function (state,index) {
                 let currentIndex = state.todoList[index];
                 let nextIndex = state.todoList[index + 1];
                 state.todoList[index] = nextIndex;
@@ -90,7 +90,7 @@
                 //  state.$forceUpdate()
                 console.log(state.todoList[index - 1])
             },
-            goingUp: function (state, index) {
+            goingUp: function (state,index) {
                 let currentIndex = state.todoList[index];
                 let lastIndex = state.todoList[index - 1];
                 state.todoList[index] = lastIndex;

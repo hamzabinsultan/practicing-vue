@@ -15,8 +15,6 @@
         <inputcomp></inputcomp>
         <btn text="addNewTodo" v-on:do-task="addNewTodo"></btn>
         <list></list>
-
-
     </div>
 </body>
 <script>
@@ -38,9 +36,7 @@
                     this.$store.commit('updateMessage', value)
                 }
             }
-
         }
-
     })
     //list component li ol
     Vue.component("list", {
@@ -58,16 +54,15 @@
         },
         methods: {
             goUp(index) {
-                this.$store.commit("goingUp",index)
+                this.$store.commit("goingUp", index)
             },
             goDown(index) {
-                this.$store.commit("goingDown",index)
+                this.$store.commit("goingDown", index)
             },
             deleteTask(index) {
-                this.$store.commit("removeTodo",index)
+                this.$store.commit("removeTodo", index)
             }
         },
-
     })
     //Vuex store
     const store = new Vuex.Store({
@@ -124,7 +119,6 @@
                 this.$store.commit("addNewTodo")
             },
         }
-
     })
 </script>
 

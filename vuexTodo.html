@@ -11,11 +11,11 @@
 <body>
     <div id="app">
         <inputcomp></inputcomp>
-        <btn name-btn="addNewTodo" v-on:do-task="addNewTodo"></btn>
-        <btn name-btn="MarkTodo"></btn>
-        <btn name-btn="removeTodo"></btn>
-        <btn name-btn="UP"></btn>
-        <btn name-btn="Down"></btn>
+        <btn text="addNewTodo" v-on:do-task="addNewTodo"></btn>
+        <!-- <btn text="MarkTodo"></btn>
+        <btn text="removeTodo"></btn>
+        <btn text="UP"></btn>
+        <btn text="Down"></btn> -->
         <list></list>
        
     </div>
@@ -23,11 +23,14 @@
 <script>
 // btn component 
 Vue.component("btn",{
-        template:`<button v-on:click="$emit('do-task')" >{{nameBtn}}</button>`,
-        props:["nameBtn"],
+        template:`<button v-on:click="$emit('do-task')" >{{text}}</button>`,
+        props:["text"],
         methods:{
-          //btnFunc
-        }
+            addNewTodo(){
+            this.$store.commit("addNewTodo")
+        },
+            },
+        
 
     })
 //  inputcomponent 
@@ -71,6 +74,10 @@ const store = new Vuex.Store({
   mutations: {
       updateMessage (state,value){
          state.todoTask = value,
+         state.todoList.push({
+              taskTodo: state.todoTask,
+              status : false
+          })
          console.log(state.todoTask)
       },
       addNewTodo(state){

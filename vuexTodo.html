@@ -9,11 +9,16 @@
     <script src="https://unpkg.com/vuex"></script>
     <title>Document</title>
 </head>
+<style>
+    .todoTaskCompleted {
+        text-decoration-line: line-through;
+    }
+</style>
 
 <body>
     <div id="app">
         <inputcomp></inputcomp>
-        <btn text="addNewTodo" v-on:do-task="addNewTodo"></btn>
+        <btn text="addNewTodo" v-on:do-task="addNewTodo" v-if="this.$store.state.todoTask"></btn>
         <list></list>
     </div>
 </body>
@@ -42,13 +47,17 @@
     Vue.component("list", {
         template: `
     <ol>
-        <li v-for="(todo, index,) in listloop">
-            <p>{{todo.taskTodo}}</p> <btn text="Delete" v-on:do-task="deleteTask"></btn>|<btn text="UP" v-on:do-task="goUp"></btn>|<btn text="Down" v-on:do-task="goDown"></btn>
+        <li v-for="(todo,index) in listloop">
+            <p  v-bind:class="{ todoTaskCompleted: todo.status }">{{todo.taskTodo}}</p> 
+            <btn text="Delete" v-on:do-task="deleteTask(index)"></btn>|
+            <btn  text="UP" v-on:do-task="goUp(index)"></btn>|
+            <btn text="Down" v-on:do-task="goDown(index)"></btn>|
+            <btn text="MarkCompleted" v-on:do-task="markCompleted(todo)"></btn>
         </li>
     </ol>`,
         computed: {
             listloop: function () {
-                console.log(store.state.todoList)
+                console.log(store.getters.loopTodoList)
                 return store.getters.loopTodoList;
             }
         },
@@ -61,6 +70,9 @@
             },
             deleteTask(index) {
                 this.$store.commit("removeTodo", index)
+            },
+            markCompleted(todo) {
+                this.$store.commit("taskToggle", todo)
             }
         },
     })
@@ -82,26 +94,28 @@
                 })
                 state.todoTask = "";
             },
-            goingDown: function (state,index) {
+            goingDown: function (state, index) {
                 let currentIndex = state.todoList[index];
                 let nextIndex = state.todoList[index + 1];
                 state.todoList[index] = nextIndex;
                 state.todoList[index + 1] = currentIndex;
-                //  state.$forceUpdate()
-                console.log(state.todoList[index - 1])
+                // $forceUpdate()  giving error
+                console.log(state.todoList[index + 1])
             },
-            goingUp: function (state,index) {
+            goingUp: function (state, index) {
                 let currentIndex = state.todoList[index];
                 let lastIndex = state.todoList[index - 1];
                 state.todoList[index] = lastIndex;
                 state.todoList[index - 1] = currentIndex;
-                // state.$forceUpdate()
-                console.log(state.todoList[index + 1])
+                // $forceUpdate() giving error
+                console.log(state.todoList[index - 1])
             },
             removeTodo: function (state, index) {
                 state.todoList.splice(index, 1)
             },
-
+            taskToggle: function (todo) {
+                todo.status = !todo.status;
+            }
         },
         getters: {
             loopTodoList: function (state) {

@@ -11,25 +11,29 @@
 <style>
   .todoTaskCompleted {
     text-decoration-line: line-through;
- }
-.markCompleted {
+  }
+
+  .markCompleted {
     background-color: green;
   }
-.deleteButton {
+
+  .deleteButton {
     background-color: red;
   }
 </style>
+
 <body>
   <div id="todo">
     <p>Add a TODO <input type="text" v-model="todoTask" placeholder="E.g. Feed the cat"></p>
-    <button v-show ="todoTask" @click="addNewTodo">addNewTodo</button>
+    <button v-show="todoTask" @click="addNewTodo">addNewTodo</button>
     <ol>
       <li v-for="(todo, index,) in todoList">
         <p :class="{  todoTaskCompleted :todo.completed  }">{{todo.title}}</p>
         <button @click="removeTodo(index)">Delete</button> |
         <button :class="{  markCompleted :todo.completed  }" @click="taskToggle(todo)">Mark
           {{todo.completed===true?'Completed':'Incomplete'}} </button>
-          <button v-show="todoList[index-1]" @click="goingUp(index)">Up</button><button v-show="todoList[index+1]"   @click="goingDown(index)">Down</button>
+        <button v-show="todoList[index-1]" @click="goingUp(index)">Up</button><button v-show="todoList[index+1]"
+          @click="goingDown(index)">Down</button>
       </li>
     </ol>
   </div>
@@ -40,13 +44,13 @@
     data: {
       todoTask: "",
       todoList: [],
-  },
+    },
     methods: {
       addNewTodo: function () {
         this.todoList.push({
           title: this.todoTask,
           completed: false,
-      
+
         })
         this.todoTask = "";// it is clearing input field
         localStorage.setItem("key", JSON.stringify(this.todoList));
@@ -55,33 +59,33 @@
         this.todoList.splice(index, 1)
         localStorage.setItem("key", JSON.stringify(this.todoList));
       },
-      goingUp: function(index){
-      let currentIndex = this.todoList[index];
-     let lastIndex = this.todoList[index-1];
-     this.todoList[index] = lastIndex;
-     this.todoList[index-1] = currentIndex;
-     this.$forceUpdate()
-     console.log(this.todoList[index+1])
+      goingUp: function (index) {
+        let currentIndex = this.todoList[index];
+        let lastIndex = this.todoList[index - 1];
+        this.todoList[index] = lastIndex;
+        this.todoList[index - 1] = currentIndex;
+        this.$forceUpdate()
+        console.log(this.todoList[index + 1])
       },
-      goingDown: function(index){ 
-     let currentIndex = this.todoList[index];
-     let nextIndex = this.todoList[index+1];
-     this.todoList[index] = nextIndex;
-     this.todoList[index+1]= currentIndex;
-     this.$forceUpdate()
-    console.log(this.todoList[index-1])
+      goingDown: function (index) {
+        let currentIndex = this.todoList[index];
+        let nextIndex = this.todoList[index + 1];
+        this.todoList[index] = nextIndex;
+        this.todoList[index + 1] = currentIndex;
+        this.$forceUpdate()
+        console.log(this.todoList[index - 1])
       },
       taskToggle: function (todo) {
         todo.completed = !todo.completed;
-      },
+      }
     },
     mounted() {
       const getStorage = localStorage.getItem("key");
       console.log(getStorage)// if there is no todo in localStorage , getStorage will return undefined having falsy value and the opposite of this scenario is presence of todos in getStorage so the 2nd condition is truthy value 
-      if(getStorage){
+      if (getStorage) {
         this.todoList = JSON.parse(getStorage)
       }
- 
+
     }
   })
 </script>

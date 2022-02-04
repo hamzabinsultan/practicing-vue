@@ -65,7 +65,7 @@
         this.todoList[index] = lastIndex;
         this.todoList[index - 1] = currentIndex;
         this.$forceUpdate()
-        console.log(this.todoList[index + 1])
+        console.log(this.todoList)
       },
       goingDown: function (index) {
         let currentIndex = this.todoList[index];
@@ -73,7 +73,7 @@
         this.todoList[index] = nextIndex;
         this.todoList[index + 1] = currentIndex;
         this.$forceUpdate()
-        console.log(this.todoList[index - 1])
+        console.log(this.todoList)
       },
       taskToggle: function (todo) {
         todo.completed = !todo.completed;

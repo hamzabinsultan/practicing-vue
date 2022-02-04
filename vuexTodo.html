@@ -50,7 +50,7 @@
         <li v-for="(todo,index) in listloop">
             <p  v-bind:class="{ todoTaskCompleted: todo.status }">{{todo.taskTodo}}</p> 
             <btn text="Delete" v-on:do-task="deleteTask(index)"></btn>|
-            <btn  text="UP" v-on:do-task="goUp(index)"></btn>|
+            <btn  text="UP" v-on:do-task="goUp(index)"  v-show="showUpBtn(index)"></btn>|
             <btn text="Down" v-on:do-task="goDown(index)"></btn>|
             <btn text="MarkCompleted" v-on:do-task="markCompleted(todo)"></btn>
         </li>
@@ -59,8 +59,13 @@
             listloop: function () {
                 console.log(store.getters.loopTodoList)
                 return store.getters.loopTodoList;
+            },
+            showUpBtn: function () {
+                return store.state.todoList[index - 1]
             }
         },
+
+
         methods: {
             goUp(index) {
                 this.$store.commit("goingUp", index)
@@ -95,20 +100,24 @@
                 state.todoTask = "";
             },
             goingDown: function (state, index) {
-                let currentIndex = state.todoList[index];
-                let nextIndex = state.todoList[index + 1];
-                state.todoList[index] = nextIndex;
-                state.todoList[index + 1] = currentIndex;
-                // $forceUpdate()  giving error
-                console.log(state.todoList[index + 1])
+                var todoArray = state.todoList;
+                let currentIndex = todoArray[index];
+                let nextIndex = todoArray[index + 1];
+                todoArray[index] = nextIndex;
+                todoArray[index + 1] = currentIndex;
+                state.todoList = todoArray
+                //this.$forceUpdate() 
+                console.log(state.todoList)
             },
             goingUp: function (state, index) {
-                let currentIndex = state.todoList[index];
-                let lastIndex = state.todoList[index - 1];
-                state.todoList[index] = lastIndex;
-                state.todoList[index - 1] = currentIndex;
-                // $forceUpdate() giving error
-                console.log(state.todoList[index - 1])
+                var todoArray = state.todoList;
+                let currentIndex = todoArray[index];
+                let lastIndex = todoArray[index - 1];
+                todoArray[index] = lastIndex;
+                todoArray[index - 1] = currentIndex;
+                state.todoList = todoArray
+                // this.$forceUpdate() 
+                console.log(state.todoList)
             },
             removeTodo: function (state, index) {
                 state.todoList.splice(index, 1)
